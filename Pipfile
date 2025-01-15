@@ -11,6 +11,9 @@ djangorestframework = "*"
 django-cors-headers = "*"
 drf-nested-routers = "*"
 django-filter = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
+django-unfold = "*"
 
 [dev-packages]
 
