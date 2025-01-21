@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.db import transaction
 from rest_framework import serializers
-from .models import CartItem, Customer, Order, OrderItem, Product, Collection, Review, Cart
+from .models import CartItem, Customer, Order, OrderItem, Product, Collection, ProductImage, Review, Cart
 from .signals import order_create
 
 
@@ -11,12 +11,23 @@ class CollectionSerializer(serializers.ModelSerializer):
         fields = ['id', 'title','products_count']
 
     products_count = serializers.IntegerField(read_only=True)     
+    
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        product_id = self.context['product_id']
+        return ProductImage.objects.create(product_id=product_id, **validated_data)
+    
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image']    
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True, read_only=True)
     class Meta:
         model = Product
-        fields = ['id', 'title', 'description', 'inventory', 'slug', 'unit_price', 'discount', 'collection']
+        fields = ['id', 'title', 'description', 'inventory', 'slug', 'unit_price', 'discount', 'collection', 'images']
    
     discount = serializers.SerializerMethodField(method_name='calculate_discount')
    #  collection = serializers.StringRelatedField()
@@ -164,4 +175,5 @@ class CreateOrderSerializer(serializers.Serializer):
             order_create.send_robust(self.__class__, order=order)
 
             return order
+
 

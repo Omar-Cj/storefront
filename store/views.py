@@ -11,13 +11,13 @@ from rest_framework import status
 from .permissions import FullDjangoModelPermissions, IsAdminUserOrReadOnly, ViewCustomerHistoryPermission
 from .pagination import DefaultPagination
 from .filters import ProductFilter
-from .models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, Review
-from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
+from .models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, ProductImage, Review
+from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
 
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all().order_by('id')
+    queryset = Product.objects.prefetch_related('images').all().order_by('id')
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
     ordering_fields = ['unit_price']
@@ -135,5 +135,12 @@ class OrderViewset(ModelViewSet):
 
 
 
-class OrderItemViewset(ModelViewSet):
-    queryset = OrderItem.objects.select_related('products').all()
+
+class ProductImageViewset(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
+    
+    def get_queryset(self):
+       return ProductImage.objects.filter(product=self.kwargs['product_pk'])
