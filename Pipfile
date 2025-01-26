@@ -16,6 +16,9 @@ djangorestframework-simplejwt = "*"
 django-unfold = "*"
 pillow = "*"
 django-templated-mail = "*"
+redis = "*"
+celery = "*"
+flower = "*"
 
 [dev-packages]
 

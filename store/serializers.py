@@ -25,6 +25,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
+    collection = CollectionSerializer()
     class Meta:
         model = Product
         fields = ['id', 'title', 'description', 'inventory', 'slug', 'unit_price', 'discount', 'collection', 'images']

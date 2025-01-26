@@ -20,7 +20,7 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.prefetch_related('images').all().order_by('id')
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
-    ordering_fields = ['unit_price']
+    ordering_fields = ['id','title','unit_price', 'inventory', 'category']
     pagination_class = DefaultPagination
     permission_classes = [IsAdminUserOrReadOnly]
     search_fields = ['title']
