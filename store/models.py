@@ -46,13 +46,13 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='store/images', validators=[validate_file_size])        
+    image = models.ImageField(upload_to='store/images')        
 
 
 class Customer(models.Model):
-    MEMBERSHIP_BRONZE = 'B'
-    MEMBERSHIP_SILVER = 'S'
-    MEMBERSHIP_GOLD = 'G'
+    MEMBERSHIP_BRONZE = 'Bronze'
+    MEMBERSHIP_SILVER = 'Silver'
+    MEMBERSHIP_GOLD = 'Gold'
 
     MEMBERSHIP_CHOICES = [
         (MEMBERSHIP_BRONZE, 'Bronze'),
@@ -63,7 +63,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True, blank=True)
     membership = models.CharField(
-        max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+        max_length=7, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     

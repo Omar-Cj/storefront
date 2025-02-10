@@ -10,7 +10,7 @@ from rest_framework import status
 
 from .permissions import FullDjangoModelPermissions, IsAdminUserOrReadOnly, ViewCustomerHistoryPermission
 from .pagination import DefaultPagination
-from .filters import ProductFilter
+from .filters import CollectionFilter, CustomerFilter, ProductFilter
 from .models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, ProductImage, Review
 from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
 
@@ -20,7 +20,7 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.prefetch_related('images').all().order_by('id')
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
-    ordering_fields = ['id','title','unit_price', 'inventory', 'category']
+    ordering_fields = ['id','title','unit_price', 'inventory', 'collection']
     pagination_class = DefaultPagination
     permission_classes = [IsAdminUserOrReadOnly]
     search_fields = ['title']
@@ -38,6 +38,10 @@ class ProductViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(products_count=Count('products')).order_by('id')
     serializer_class = CollectionSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    pagination_class = DefaultPagination
+    search_fields = ['title']
+    ordering_fields = ['id', 'title', 'products_count']
     permission_classes = [IsAdminUserOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):
@@ -82,6 +86,11 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewset(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    pagination_class = DefaultPagination
+    filterset_class = CustomerFilter
+    search_fields = ['user__first_name', 'user__last_name']
+    ordering_fields = ['id']
     permission_classes = [IsAdminUser]
 
     @action(detail=True, permission_classes=[ViewCustomerHistoryPermission] )

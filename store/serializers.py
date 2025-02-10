@@ -6,11 +6,11 @@ from .signals import order_create
 
 
 class CollectionSerializer(serializers.ModelSerializer):
+    products_count = serializers.IntegerField(read_only=True)     
     class Meta:
         model = Collection
         fields = ['id', 'title','products_count']
 
-    products_count = serializers.IntegerField(read_only=True)     
     
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -25,16 +25,15 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
-    collection = CollectionSerializer()
-    class Meta:
-        model = Product
-        fields = ['id', 'title', 'description', 'inventory', 'slug', 'unit_price', 'discount', 'collection', 'images']
-   
     discount = serializers.SerializerMethodField(method_name='calculate_discount')
-   #  collection = serializers.StringRelatedField()
 
     def calculate_discount(self, product: Product):
         return product.unit_price * Decimal(0.5) 
+    
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'description', 'inventory', 'slug', 'unit_price', 'discount', 'collection', 'images']
+
     
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
