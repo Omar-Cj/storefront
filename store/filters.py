@@ -1,6 +1,6 @@
 
 from django_filters.rest_framework import FilterSet
-from .models import Collection, Customer, Product
+from .models import Collection, Customer, Order, Product
 
 
 class ProductFilter(FilterSet):
@@ -25,4 +25,11 @@ class CustomerFilter(FilterSet):
         model = Customer
         fields = {
             'membership': ['exact']
+        }
+
+class OrderFilter(FilterSet):
+    class Meta:
+        model = Order
+        fields = {
+            'payment_status': ['exact']
         }

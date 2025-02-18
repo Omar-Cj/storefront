@@ -1,4 +1,7 @@
 from django.db.models.aggregates import Count
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.decorators import action
@@ -10,7 +13,7 @@ from rest_framework import status
 
 from .permissions import FullDjangoModelPermissions, IsAdminUserOrReadOnly, ViewCustomerHistoryPermission
 from .pagination import DefaultPagination
-from .filters import CollectionFilter, CustomerFilter, ProductFilter
+from .filters import CollectionFilter, CustomerFilter, OrderFilter, ProductFilter
 from .models import Cart, CartItem, Customer, Order, OrderItem, Product, Collection, ProductImage, Review
 from .serializers import AddCartItemSerializer, CartItemSerializer, CartSerializer, CreateOrderSerializer, CustomerSerializer, OrderSerializer, ProductImageSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
 
@@ -28,7 +31,7 @@ class ProductViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         if OrderItem.objects.filter(product_id=kwargs['pk']).count() > 0:
-            return Response({'error': 'Cannot Delete product because it is associated with an order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED) 
+            return Response({'error': 'Cannot Delete product because it is associated with an order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
 
 
@@ -114,6 +117,11 @@ class CustomerViewset(ModelViewSet):
 class OrderViewset(ModelViewSet):
     http_method_names = ['get','post','patch','delete','options','head']
     permission_classes = [IsAdminUser] 
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    pagination_class = DefaultPagination
+    filterset_class = OrderFilter
+    search_fields = ['id', 'placed_at']
+    ordering_fields = ['id', 'placed_at']
 
     def get_permissions(self):
         if self.request.method in ['PATCH', 'DELETE']:
