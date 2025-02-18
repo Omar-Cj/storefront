@@ -4,7 +4,7 @@ from .common import *
 
 DEBUG = False
 
-SECRET_KEY = os.environ.get['SECRET_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['suuqcasri-prod-b2dbb1ea4f1e.herokuapp.com']
 
@@ -15,7 +15,7 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 
-REDIS_URL = os.environ.get.get('REDISCLOUD_URL', 'redis://localhost:6379')
+REDIS_URL = os.environ.get('REDISCLOUD_URL', 'redis://localhost:6379')
 
 
 CELERY_BROKER_URL = REDIS_URL   
