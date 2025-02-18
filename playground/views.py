@@ -1,4 +1,5 @@
 from django.core.mail import EmailMessage, BadHeaderError
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.views import APIView
 from templated_mail.mail import BaseEmailMessage
@@ -10,4 +11,4 @@ class HelloView(APIView):
             message.send(['omar3166435@gmail.com'])
         except BadHeaderError:
             pass
-        return render(request, 'index.html', {'name': 'Omar'})  
+        return HttpResponse('Done Sent the Mail.')
