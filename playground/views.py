@@ -10,4 +10,4 @@ class HelloView(APIView):
             message.send(['omar3166435@gmail.com'])
         except BadHeaderError:
             pass
-        return render(request, 'index.html')  
+        return render(request, 'index.html', {'name': 'Omar'})  

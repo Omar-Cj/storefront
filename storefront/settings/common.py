@@ -163,7 +163,7 @@ DJOSER = {
 
 
 
-DEFAULT_FROM_EMAIL = 'omar@systesa.com'
+DEFAULT_FROM_EMAIL = 'm416pro1133@gmail.com'
 
 
 CELERY_BROKER_URL = 'redis://localhost:6379/1'
