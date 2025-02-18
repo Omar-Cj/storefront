@@ -15,7 +15,7 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 
-REDIS_URL = os.environ('REDISCLOUD_URL')
+REDIS_URL = os.environ.get('REDISCLOUD_URL', 'redis://localhost:6379')
 
 
 CELERY_BROKER_URL = REDIS_URL   
