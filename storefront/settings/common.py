@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'silk',
+    'storages',
     
     'playground',
     'store',

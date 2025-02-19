@@ -34,3 +34,16 @@ EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
 EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
 EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
 EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
+
+
+
+GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
+
+
+GS_PROJECT_ID = os.environ.get('GS_PROJECT_ID')
+
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
