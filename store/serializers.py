@@ -15,8 +15,11 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 class ProductImageSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
-        product_id = self.context['product_id']
-        return ProductImage.objects.create(product_id=product_id, **validated_data)
+        try:
+            product_id = self.context['product_id']
+            return ProductImage.objects.create(product_id=product_id, **validated_data)
+        except Exception as e:
+            print(f'Error creating product image: {str(e)}')
     
     class Meta:
         model = ProductImage

@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 
 from .permissions import FullDjangoModelPermissions, IsAdminUserOrReadOnly, ViewCustomerHistoryPermission
@@ -155,6 +156,7 @@ class OrderViewset(ModelViewSet):
 
 class ProductImageViewset(ModelViewSet):
     serializer_class = ProductImageSerializer
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}

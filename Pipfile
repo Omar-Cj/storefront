@@ -26,6 +26,7 @@ dj-database-url = "*"
 django-silk = "*"
 django-storages = "*"
 google-cloud-storage = "*"
+boto3 = "*"
 
 [dev-packages]
 pytest = "*"

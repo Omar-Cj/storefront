@@ -34,3 +34,16 @@ EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
 EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
 EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
 EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
+
+# Cloud Storage configuration
+
+AWS_ACCESS_KEY_ID = os.environ.get('DO_SPACES_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('DO_SPACES_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = 'suuqcasri-storage'
+AWS_S3_REGION_NAME = 'nyc3'
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.nyc3.digitaloceanspaces.com'
+
+DEFAULT_FILE_STORAGE = 'storefront.storage_backends.MediaStorage'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
