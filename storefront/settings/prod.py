@@ -45,5 +45,10 @@ AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
 
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.nyc3.digitaloceanspaces.com'
 
-DEFAULT_FILE_STORAGE = 'storefront.storage_backends.MediaStorage'
+STORAGES = {
+    'default': {
+        'BACKEND': 'storefront.storage_backends.MediaStorage'
+    }
+}
+
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
