@@ -48,6 +48,9 @@ AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.nyc3.digitaloceanspaces.com'
 STORAGES = {
     'default': {
         'BACKEND': 'storefront.storage_backends.MediaStorage'
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     }
 }
 
